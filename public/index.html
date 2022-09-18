@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        button {
+            border-radius: 4px;
+            background: dodgerblue;
+            color: white;
+            border: 0;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-root" style="display: none">
+    <h1>This is Frontegg Integration in Vanilla Javascript </h1>
+
+    <div id="user-container">
+
+    </div>
+    <br/>
+    <br/>
+    <button fe-action="open-admin-portal" fe-state="isAuthenticated">Open AdminPortal</button>
+    <a fe-state="isAuthenticated" href="/account/logout"><button>Logout</button></a>
+    <a fe-state="!isAuthenticated" href="/account/login"><button>Login</button></a>
+</div>
+<script src="/bundle.js"></script>
+</body>
+</html>
