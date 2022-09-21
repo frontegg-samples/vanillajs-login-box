@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        button {
+            border-radius: 4px;
+            background: dodgerblue;
+            color: white;
+            border: 0;
+            padding: 8px 16px;
+        }
+    </style>
+    <script type="application/javascript"
+            src="https://cdn.jsdelivr.net/npm/@frontegg/js@6.12.0/umd/frontegg.production.min.js"></script>
+</head>
+<body>
+
+<div id="app-root" style="display: none">
+    <h1>This is Frontegg Integration in Vanilla Javascript </h1>
+
+    <div id="user-container"></div>
+    <br/>
+    <br/>
+
+
+    <button fe-action="open-admin-portal" fe-state="isAuthenticated">Open AdminPortal</button>
+    <a fe-state="isAuthenticated" href="/account/logout">
+        <button>Logout</button>
+    </a>
+    <a fe-state="!isAuthenticated" fe-action="loginWithRedirect" href="/account/login">
+        <button>Login</button>
+    </a>
+    <button id="loginWithRedirect" fe-state="!isAuthenticated">
+        Login With Redirect [HostedLogin]
+    </button>
+</div>
+
+<script type="text/javascript">
+
+  const app = Frontegg.initialize({
+    contextOptions: {
+      baseUrl: "https://david.frontegg.com",
+      clientId: 'b6adfe4c-d695-4c04-b95f-3ec9fd0c6cca'
+    },
+    hostedLoginBox: true
+  });
+
+
+  app.ready(() => {
+    console.log("david");
+    app.loginWithRedirect()
+  })
+
+  document.querySelector('[fe-action="open-admin-portal"]').addEventListener('click', () => {
+    app.showAdminPortal()
+  })
+
+  document.getElementById("loginWithRedirect").addEventListener('click', () => {
+    app.store.dispatch({
+      type: 'auth/requestHostedLoginAuthorize'
+    })
+  })
+
+
+
+  const style = document.createElement('style');
+  style.setAttribute('type', 'text/css');
+  style.innerHTML = '';
+  document.getElementsByTagName('head')[0].appendChild(style);
+
+
+  app.store.subscribe(() => {
+    const state = app.store.getState();
+    document.getElementById('app-root').style.display = state.auth.isLoading ? 'hidden' : 'block'
+
+
+    if (state.auth.user) {
+      document.getElementById('user-container').innerText = state.auth.user.email;
+    } else {
+      document.getElementById('user-container').innerText = 'Not Authenticated'
+    }
+
+
+    let styleHtml = ''
+    if (state.auth.isAuthenticated) {
+      styleHtml += '[fe-state="isAuthenticated"] { }';
+      styleHtml += '[fe-state="!isAuthenticated"] { display: none; }';
+    } else {
+      styleHtml += '[fe-state="isAuthenticated"] { display: none; }';
+      styleHtml += '[fe-state="!isAuthenticated"] { }';
+    }
+    style.innerHTML = styleHtml;
+  })
+
+</script>
+</body>
+</html>
