@@ -24,8 +24,9 @@
     <br/>
     <br/>
     <button fe-action="open-admin-portal" fe-state="isAuthenticated">Open AdminPortal</button>
-    <a fe-state="isAuthenticated" href="/account/logout"><button>Logout</button></a>
-    <a fe-mode="embedded" fe-state="!isAuthenticated" href="/account/login"><button>Login</button></a>
+    <a fe-state="isAuthenticated" href="/account/logout"><button>Logout [Embedded]</button></a>
+    <a id="logout" fe-state="isAuthenticated"><button>Logout [HostedLogin]</button></a>
+    <a fe-mode="embedded" fe-state="!isAuthenticated" href="/account/login"><button>Login [Embedded]</button></a>
     <button id="loginWithRedirect" fe-mode="hosted"  fe-state="!isAuthenticated">
         Login With Redirect [HostedLogin]
     </button>

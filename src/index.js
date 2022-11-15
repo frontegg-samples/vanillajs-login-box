@@ -23,6 +23,10 @@ document.getElementById("loginWithRedirect").addEventListener('click', () => {
   app.loginWithRedirect()
 })
 
+document.getElementById("logout").addEventListener('click', () => {
+  app.logout()
+})
+
 app.store.subscribe(() => {
   const state = app.store.getState();
   if (state.auth.user) {
