@@ -19,6 +19,6 @@
     "dev-server": "webpack serve  --open"
   },
   "dependencies": {
-    "@frontegg/js": "^6.44.0"
+    "@frontegg/js": "^6.51.0"
   }
 }
