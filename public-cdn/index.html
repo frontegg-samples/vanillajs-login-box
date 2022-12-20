@@ -13,7 +13,7 @@
         }
     </style>
     <script type="application/javascript"
-            src="https://cdn.jsdelivr.net/npm/@frontegg/js@6.12.0/umd/frontegg.production.min.js"></script>
+            src="https://cdn.jsdelivr.net/npm/@frontegg/js@6.51.0/umd/frontegg.production.min.js"></script>
 </head>
 <body>
 
@@ -26,8 +26,11 @@
 
 
     <button fe-action="open-admin-portal" fe-state="isAuthenticated">Open AdminPortal</button>
-    <a fe-state="isAuthenticated" href="/account/logout">
+    <a fe-state="isAuthenticated" fe-mode="embedded" href="/account/logout">
         <button>Logout</button>
+    </a>
+    <a fe-state="isAuthenticated" fe-mode="hosted" id="hostedLoginLogout">
+        <button>Logout [HostedLogin]</button>
     </a>
     <a fe-state="!isAuthenticated" fe-mode="embedded"  fe-action="loginWithRedirect" href="/account/login">
         <button>Login</button>
@@ -41,14 +44,29 @@
 
     const app = Frontegg.initialize({
         contextOptions: {
-            baseUrl: "https://YOUR_DOMAIN.frontegg.com", //set your Frontegg environment domain and client ID here
-            clientId: 'YOUR_FRONTEGG_CLIENT_ID'
+          baseUrl: "https://YOUR_DOMAIN.frontegg.com", //set your Frontegg environment domain and client ID here
+          clientId: 'YOUR_FRONTEGG_CLIENT_ID'
         },
         hostedLoginBox: true //if you are working in embedded mode remove this one
     })
 
+
   app.ready(() => {
-    app.loginWithRedirect()
+    console.log("App is ready");
+
+
+    /**
+     * Uncomment below code for automatic login
+     */
+    // let unsubscribe = app.store.subscribe(()=>{
+    //   const {auth} = app.store.getState();
+    //   if(!auth.isLoading) {
+    //     unsubscribe()
+    //     if (!auth.isAuthenticated) {
+    //       app.loginWithRedirect()
+    //     }
+    //   }
+    // })
   })
 
   document.querySelector('[fe-action="open-admin-portal"]').addEventListener('click', () => {
@@ -57,6 +75,10 @@
 
   document.getElementById("loginWithRedirect").addEventListener('click', () => {
       app.loginWithRedirect()
+  })
+
+  document.getElementById("hostedLoginLogout").addEventListener('click', () => {
+      app.logout()
   })
 
 
@@ -97,6 +119,9 @@
       }
     style.innerHTML = styleHtml;
   })
+
+
+
 
 </script>
 </body>
